@@ -120,7 +120,7 @@ app.delete('/books/:id', async (request, response) => {
     
     } catch (error) {
         console.log(error.message);
-        return reponse.status(500).send({message: error.message})
+        return response.status(500).send({message: error.message})
     }
 });
 
