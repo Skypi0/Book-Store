@@ -34,7 +34,7 @@ app.post('/books', async (request, response) => {
         return response.status(201).send(book);
     } catch (error) {
         console.log(error.message);
-        response.status(500).send({ message: error.message })
+        response.status(500).send({ message: error.message });
     }
 });
 
@@ -43,8 +43,21 @@ app.listen(PORT, () => {
     console.log(`App is listening to port: ${PORT}`);
 });
 
-//Ruta para traer los libros de la base de datos
+//Ruta para traer todos los libros de la base de datos
+app.get('/books', async (request, response) => {
+    try {
+        const books = await Book.find({});
 
+        return response.status(200).send({
+            count: books.length,
+            data: books
+        });
+
+    } catch (error) {
+        console.log(error.message);
+        response.status(500).send({ message: error.message });
+    }
+})
 //conexion a mongoDBURL ubicado en ./config.js 
 mongoose
     .connect(mongoDBURL)
