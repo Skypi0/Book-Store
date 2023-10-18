@@ -1,4 +1,4 @@
-import express, { request } from "express";
+import express, { request, response } from "express";
 import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import { Book } from "./models/bookModel.js";
@@ -101,6 +101,26 @@ app.put('/books/:id', async (request, response) => {
     } catch (error) {
         console.log(error.message);
         response.status(500).send({ message: error.message });
+    }
+});
+
+//ruta para eliminar un libro
+app.delete('/books/:id', async (request, response) => {
+    try {
+        
+        const {id} = request.params;
+
+        const result = await Book.findByIdAndDelete(id);
+
+        if(!result){
+            return response.status(404).json({message: 'Book not Found'});
+        }
+        
+        return response.status(200).send({message: 'Book Deleted Succesfully'});
+    
+    } catch (error) {
+        console.log(error.message);
+        return reponse.status(500).send({message: error.message})
     }
 });
 
